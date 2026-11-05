@@ -1,16 +1,19 @@
 // Inkloom AI Brand Color Palette Definition
+// Derived from Official Brand Palette Tokens
+
 export const BRAND_COLORS = {
-  petrolDeep: '#003135',    // Base canvas dark
-  petrolSurface: '#024950', // Card surface
-  terracotta: '#964734',    // Critical severity & claim violation
-  cyanAccent: '#0FA4AF',    // Primary interactive & scanning highlights
-  iceTint: '#AFDDE5',       // Primary heading text on dark & light surface tint
+  midnightBase: '#0B1B3D',      // Base Canvas Dark
+  slateSurface: '#26425A',      // Container Cards & Panels
+  cornflowerAccent: '#86A8CF',  // Interactive Buttons & CTAs
+  dustyOrchid: '#C38EB4',       // Critical Alerts & Violations
+  blushForeground: '#E1CBD7',   // Primary High-Contrast Typography
+  deepWell: '#07111C',          // Input Fields & Diff Wells
 } as const;
 
 export const CHART_PALETTE = [
-  '#0FA4AF', // Cyan Accent
-  '#AFDDE5', // Ice Blue
-  '#964734', // Terracotta
-  '#024950', // Ocean Teal
-  '#003135', // Deep Petrol
+  '#86A8CF', // Cornflower Blue
+  '#C38EB4', // Dusty Orchid
+  '#E1CBD7', // Pale Blush
+  '#26425A', // Slate Navy
+  '#0B1B3D', // Midnight Base
 ];

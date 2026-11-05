@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrandGuidelineRule } from '../../types';
 import { MOCK_GUIDELINE_RULES } from '../../data/mockGuidelines';
-import { Sparkles, Plus, Download, AlertCircle, BookOpen, Check } from 'lucide-react';
+import { Sparkles, Plus, Download, AlertCircle } from 'lucide-react';
 
 export const KnowledgeBaseManager: React.FC = () => {
   const [rules, setRules] = useState<BrandGuidelineRule[]>(MOCK_GUIDELINE_RULES);
@@ -56,31 +56,31 @@ export const KnowledgeBaseManager: React.FC = () => {
     <div className="space-y-6">
       
       {/* Header */}
-      <div className="bg-[#00272B] p-4 rounded-xl border border-[#024950] flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-[#0B1B3D] p-4 rounded-xl border border-[#26425A] flex flex-wrap items-center justify-between gap-4 shadow-md">
         <div>
           <h2 className="text-base font-bold text-white flex items-center space-x-2">
-            <Sparkles className="w-4 h-4 text-[#0FA4AF]" />
+            <Sparkles className="w-4 h-4 text-[#86A8CF]" />
             <span>Brand Knowledge Base & Governance Rules Vault</span>
           </h2>
-          <p className="text-xs text-[#AFDDE5]/60 mt-0.5">
-            Single source of truth. The deterministic engine and GPT API are grounded against these rules.
+          <p className="text-xs text-[#E1CBD7]/70 mt-0.5">
+            Single source of truth. The deterministic engine and model pipeline are grounded against these rules.
           </p>
         </div>
 
         <div className="flex items-center space-x-3">
           <button
             onClick={handleExportJSON}
-            className="px-3.5 py-2 rounded-xl bg-[#002225] hover:bg-[#003135] text-xs font-semibold text-[#AFDDE5] border border-[#0FA4AF]/30 transition flex items-center space-x-1.5 shadow-sm"
+            className="px-3.5 py-2 rounded-xl bg-[#26425A] hover:bg-[#32526e] text-xs font-semibold text-[#E1CBD7] border border-[#86A8CF]/30 transition flex items-center space-x-1.5 shadow-sm cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-[#0FA4AF]" />
+            <Download className="w-3.5 h-3.5 text-[#86A8CF]" />
             <span>Export Brand Book (JSON)</span>
           </button>
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="px-4 py-2 rounded-xl bg-[#0FA4AF] hover:bg-[#0c8e98] text-[#003135] text-xs font-bold transition flex items-center space-x-1.5 shadow-[0_0_15px_rgba(15,164,175,0.3)]"
+            className="px-4 py-2 rounded-xl bg-[#86A8CF] hover:bg-[#7297c0] text-[#0B1B3D] text-xs font-bold transition flex items-center space-x-1.5 shadow-[0_0_15px_rgba(134,168,207,0.3)] cursor-pointer"
           >
-            <Plus className="w-4 h-4 text-[#003135]" />
+            <Plus className="w-4 h-4 text-[#0B1B3D]" />
             <span>Add Brand Rule</span>
           </button>
         </div>
@@ -91,19 +91,19 @@ export const KnowledgeBaseManager: React.FC = () => {
         {rules.map(rule => (
           <div
             key={rule.id}
-            className="p-5 rounded-2xl bg-[#024950]/50 border border-[#0FA4AF]/20 hover:border-[#0FA4AF]/50 transition shadow-lg space-y-3"
+            className="p-5 rounded-2xl bg-[#26425A]/60 border border-[#86A8CF]/25 hover:border-[#86A8CF]/50 transition shadow-lg space-y-3"
           >
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center space-x-2">
-                <span className="px-2 py-0.5 rounded bg-[#0FA4AF]/20 text-[#0FA4AF] font-mono font-bold text-xs">
+                <span className="px-2 py-0.5 rounded bg-[#86A8CF]/20 text-[#86A8CF] font-mono font-bold text-xs">
                   {rule.sectionCode}
                 </span>
-                <span className="text-[11px] font-mono text-[#AFDDE5]/60 uppercase">{rule.category}</span>
+                <span className="text-[11px] font-mono text-[#E1CBD7]/60 uppercase">{rule.category}</span>
               </div>
 
               {rule.isAmbiguousWarning && (
-                <span className="px-2 py-0.5 rounded-full bg-[#964734]/30 text-[#AFDDE5] border border-[#964734]/60 text-[10px] font-semibold flex items-center space-x-1">
-                  <AlertCircle className="w-3 h-3 text-[#964734]" />
+                <span className="px-2 py-0.5 rounded-full bg-[#C38EB4]/30 text-[#E1CBD7] border border-[#C38EB4]/60 text-[10px] font-semibold flex items-center space-x-1">
+                  <AlertCircle className="w-3.5 h-3.5 text-[#C38EB4]" />
                   <span>Ambiguity Flag ({rule.overrideCount} overrides)</span>
                 </span>
               )}
@@ -111,19 +111,19 @@ export const KnowledgeBaseManager: React.FC = () => {
 
             <div>
               <h3 className="text-sm font-bold text-white">{rule.ruleName}</h3>
-              <p className="text-xs text-[#AFDDE5]/80 mt-1 leading-relaxed">{rule.description}</p>
+              <p className="text-xs text-[#E1CBD7]/80 mt-1 leading-relaxed">{rule.description}</p>
             </div>
 
             {(rule.bannedExample || rule.approvedAlternative) && (
-              <div className="pt-2 border-t border-[#024950] space-y-1.5 font-mono text-[11px]">
+              <div className="pt-2 border-t border-[#26425A] space-y-1.5 font-mono text-[11px]">
                 {rule.bannedExample && (
-                  <div className="text-[#964734] flex items-start space-x-1.5 bg-[#002225] p-2 rounded">
+                  <div className="text-[#C38EB4] flex items-start space-x-1.5 bg-[#07111C] p-2 rounded">
                     <span className="font-bold">✗ Banned:</span>
                     <span>"{rule.bannedExample}"</span>
                   </div>
                 )}
                 {rule.approvedAlternative && (
-                  <div className="text-[#0FA4AF] flex items-start space-x-1.5 bg-[#002225] p-2 rounded">
+                  <div className="text-[#86A8CF] flex items-start space-x-1.5 bg-[#07111C] p-2 rounded">
                     <span className="font-bold">✓ Approved:</span>
                     <span>"{rule.approvedAlternative}"</span>
                   </div>
@@ -137,89 +137,89 @@ export const KnowledgeBaseManager: React.FC = () => {
       {/* Add Rule Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-2xl bg-[#003135] border border-[#0FA4AF]/40 p-6 shadow-2xl space-y-4">
+          <div className="w-full max-w-lg rounded-2xl bg-[#0B1B3D] border border-[#86A8CF]/40 p-6 shadow-2xl space-y-4">
             <h3 className="text-base font-bold text-white">Add New Brand Guideline Rule</h3>
             <form onSubmit={handleAddRule} className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-mono text-[#AFDDE5]/70 block mb-1">Section Code</label>
+                  <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Section Code</label>
                   <input
                     type="text"
                     required
                     value={newRule.sectionCode}
                     onChange={(e) => setNewRule({ ...newRule, sectionCode: e.target.value })}
-                    className="w-full text-xs bg-[#002225] border border-[#0FA4AF]/30 rounded-lg p-2 text-white"
+                    className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-mono text-[#AFDDE5]/70 block mb-1">Category</label>
+                  <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Category</label>
                   <input
                     type="text"
                     required
                     value={newRule.category}
                     onChange={(e) => setNewRule({ ...newRule, category: e.target.value })}
-                    className="w-full text-xs bg-[#002225] border border-[#0FA4AF]/30 rounded-lg p-2 text-white"
+                    className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-mono text-[#AFDDE5]/70 block mb-1">Rule Name</label>
+                <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Rule Name</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Unverified SLA Metrics"
                   value={newRule.ruleName}
                   onChange={(e) => setNewRule({ ...newRule, ruleName: e.target.value })}
-                  className="w-full text-xs bg-[#002225] border border-[#0FA4AF]/30 rounded-lg p-2 text-white"
+                  className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-mono text-[#AFDDE5]/70 block mb-1">Guideline Description</label>
+                <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Guideline Description</label>
                 <textarea
                   rows={2}
                   required
                   placeholder="Explain why this rule exists and how to comply..."
                   value={newRule.description}
                   onChange={(e) => setNewRule({ ...newRule, description: e.target.value })}
-                  className="w-full text-xs bg-[#002225] border border-[#0FA4AF]/30 rounded-lg p-2 text-white"
+                  className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-mono text-[#AFDDE5]/70 block mb-1">Banned Phrasing Example</label>
+                <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Banned Phrasing Example</label>
                 <input
                   type="text"
                   placeholder="e.g. 100% uptime guaranteed"
                   value={newRule.bannedExample}
                   onChange={(e) => setNewRule({ ...newRule, bannedExample: e.target.value })}
-                  className="w-full text-xs bg-[#002225] border border-[#0FA4AF]/30 rounded-lg p-2 text-white"
+                  className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-mono text-[#AFDDE5]/70 block mb-1">Approved Alternative Example</label>
+                <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Approved Alternative Example</label>
                 <input
                   type="text"
                   placeholder="e.g. 99.9% target SLA availability"
                   value={newRule.approvedAlternative}
                   onChange={(e) => setNewRule({ ...newRule, approvedAlternative: e.target.value })}
-                  className="w-full text-xs bg-[#002225] border border-[#0FA4AF]/30 rounded-lg p-2 text-white"
+                  className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
                 />
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-[#024950]">
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-[#26425A]">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 rounded-lg bg-[#024950] text-xs text-[#AFDDE5]"
+                  className="px-4 py-2 rounded-lg bg-[#26425A] text-xs text-[#E1CBD7] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-[#0FA4AF] text-[#003135] font-bold text-xs"
+                  className="px-4 py-2 rounded-lg bg-[#86A8CF] text-[#0B1B3D] font-bold text-xs cursor-pointer"
                 >
                   Save Rule
                 </button>

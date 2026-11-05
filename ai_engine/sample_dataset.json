@@ -1,0 +1,80 @@
+[
+  {
+    "id": "inkloom-train-001",
+    "content_format": "PRESS_RELEASE",
+    "input_text": "Inkloom AI is officially announced today as the 100% best in the world brand governance platform.",
+    "category": "UNSUPPORTED_CLAIM",
+    "severity": "CRITICAL",
+    "flagged_text": "100% best in the world",
+    "rule_citation": "Brand Rulebook §4.1: Substantiation of Claims",
+    "explanation": "Superlative claims violate advertising compliance standards without documented third-party auditor verification.",
+    "intent_preserving_fix": "an industry-recognized leader in enterprise governance",
+    "intent_preservation_score": 0.96,
+    "remediated_text": "Inkloom AI is officially announced today as an industry-recognized leader in enterprise governance platform."
+  },
+  {
+    "id": "inkloom-train-002",
+    "content_format": "MARKETING_EMAIL",
+    "input_text": "Our cheap enterprise pricing is guaranteed to eliminate all brand risk forever.",
+    "category": "UNSUPPORTED_CLAIM",
+    "severity": "CRITICAL",
+    "flagged_text": "guaranteed to eliminate all brand risk forever",
+    "rule_citation": "Legal Policy §1.4: Absolute Guarantees",
+    "explanation": "Absolute warranties create binding legal risk under commercial consumer protection laws.",
+    "intent_preserving_fix": "engineered with rigorous safeguards to significantly mitigate risk",
+    "intent_preservation_score": 0.94,
+    "remediated_text": "Our cheap enterprise pricing is engineered with rigorous safeguards to significantly mitigate risk."
+  },
+  {
+    "id": "inkloom-train-003",
+    "content_format": "MARKETING_EMAIL",
+    "input_text": "Our cheap enterprise pricing gives you unbeatable savings.",
+    "category": "TERMINOLOGY",
+    "severity": "WARNING",
+    "flagged_text": "cheap",
+    "rule_citation": "Brand Voice Guide §2.3: Approved Commercial Terms",
+    "explanation": "Derogatory price framing reduces perceived product trust and enterprise value.",
+    "intent_preserving_fix": "cost-effective",
+    "intent_preservation_score": 0.98,
+    "remediated_text": "Our cost-effective enterprise pricing gives you unbeatable savings."
+  },
+  {
+    "id": "inkloom-train-004",
+    "content_format": "SOCIAL_POST",
+    "input_text": "Join our webinar to see how we crush everyone else in the compliance space.",
+    "category": "TONE",
+    "severity": "WARNING",
+    "flagged_text": "crush everyone else",
+    "rule_citation": "Brand Tone Standards §1.2: Empathetic & Authoritative Voice",
+    "explanation": "Aggressive and hostile terminology conflicts with our brand tone of trustworthy, professional partnership.",
+    "intent_preserving_fix": "deliver superior value across the market",
+    "intent_preservation_score": 0.92,
+    "remediated_text": "Join our webinar to see how we deliver superior value across the market in the compliance space."
+  },
+  {
+    "id": "inkloom-train-005",
+    "content_format": "BLOG_POST",
+    "input_text": "We accelerate time-to-market through synergistic disruption and cross-functional agility.",
+    "category": "TERMINOLOGY",
+    "severity": "SUGGESTION",
+    "flagged_text": "synergistic disruption",
+    "rule_citation": "Editorial Guidelines §3.2: Plain English",
+    "explanation": "Overused corporate buzzwords dilute messaging clarity and reduce reader engagement.",
+    "intent_preserving_fix": "collaborative innovation",
+    "intent_preservation_score": 0.95,
+    "remediated_text": "We accelerate time-to-market through collaborative innovation and cross-functional agility."
+  },
+  {
+    "id": "inkloom-train-006",
+    "content_format": "PRESS_RELEASE",
+    "input_text": "Our cloud platform delivers 99.99% uptime backed by enterprise SLA and SOC2 compliance.",
+    "category": "CLEAN",
+    "severity": "NONE",
+    "flagged_text": "",
+    "rule_citation": "",
+    "explanation": "Content complies with brand factual substantiation and professional tone standards.",
+    "intent_preserving_fix": "",
+    "intent_preservation_score": 1.0,
+    "remediated_text": "Our cloud platform delivers 99.99% uptime backed by enterprise SLA and SOC2 compliance."
+  }
+]

@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { SubmissionItem, UserRole } from '../../types';
+import { computeWordDiff } from '../../services/diffHelper';
 import { 
   CheckCircle, 
-  XCircle, 
   RotateCcw, 
-  MessageSquare, 
   History, 
   ShieldCheck, 
-  FileText, 
-  Clock, 
-  ArrowRight 
+  Split,
+  Highlighter
 } from 'lucide-react';
 
 interface ReviewApprovalHubProps {
@@ -26,6 +24,7 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
   const [selectedSubId, setSelectedSubId] = useState<string>(submissions[0]?.id || '');
   const [commentInput, setCommentInput] = useState('');
   const [filter, setFilter] = useState<'ALL' | 'PENDING' | 'APPROVED'>('ALL');
+  const [diffViewMode, setDiffViewMode] = useState<'SIDE_BY_SIDE' | 'UNIFIED_HIGHLIGHT'>('UNIFIED_HIGHLIGHT');
 
   const selectedItem = submissions.find(s => s.id === selectedSubId) || submissions[0];
 
@@ -118,33 +117,41 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
     onUpdateSubmission(updated);
   };
 
+  // Compute word diff tokens
+  const diffTokens = selectedItem 
+    ? computeWordDiff(selectedItem.rawContent, selectedItem.remediatedContent)
+    : [];
+
+  const additionsCount = diffTokens.filter(t => t.type === 'INSERT').length;
+  const deletionsCount = diffTokens.filter(t => t.type === 'DELETE').length;
+
   return (
     <div className="space-y-6">
       
       {/* Top Review Hub Header */}
-      <div className="bg-[#00272B] p-4 rounded-xl border border-[#024950] flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-[#0B1B3D] p-4 rounded-xl border border-[#26425A] flex flex-wrap items-center justify-between gap-4 shadow-md">
         <div>
           <h2 className="text-base font-bold text-white flex items-center space-x-2">
             <span>Collaborative Review & Approval Hub</span>
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#024950] text-[#0FA4AF] border border-[#0FA4AF]/30">
+            <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#26425A] text-[#86A8CF] border border-[#86A8CF]/30">
               Active Role: {activeRole}
             </span>
           </h2>
-          <p className="text-xs text-[#AFDDE5]/60 mt-0.5">
+          <p className="text-xs text-[#E1CBD7]/70 mt-0.5">
             Compare original text with remediated copy, trace audit trails, and execute digital sign-offs.
           </p>
         </div>
 
         {/* Filter Pills */}
-        <div className="flex bg-[#002024] p-1 rounded-xl border border-[#0FA4AF]/20 text-xs">
+        <div className="flex bg-[#07111C] p-1 rounded-xl border border-[#86A8CF]/20 text-xs">
           {(['ALL', 'PENDING', 'APPROVED'] as const).map(f => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-3 py-1 rounded-lg font-medium transition ${
+              className={`px-3 py-1 rounded-lg font-medium transition cursor-pointer ${
                 filter === f
-                  ? 'bg-[#0FA4AF] text-[#003135] font-bold'
-                  : 'text-[#AFDDE5]/70 hover:text-white'
+                  ? 'bg-[#86A8CF] text-[#0B1B3D] font-bold shadow-sm'
+                  : 'text-[#E1CBD7]/70 hover:text-white'
               }`}
             >
               {f}
@@ -157,7 +164,7 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
         
         {/* Left Column: Submissions Queue (4 Cols) */}
         <div className="lg:col-span-4 space-y-3">
-          <span className="text-xs font-mono uppercase text-[#AFDDE5]/70 block">
+          <span className="text-xs font-mono uppercase text-[#E1CBD7]/70 block">
             Submissions Queue ({filteredList.length})
           </span>
 
@@ -168,26 +175,26 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
                 onClick={() => setSelectedSubId(item.id)}
                 className={`p-3.5 rounded-xl border cursor-pointer transition ${
                   selectedSubId === item.id
-                    ? 'bg-[#024950] border-[#0FA4AF] shadow-[0_0_15px_rgba(15,164,175,0.2)]'
-                    : 'bg-[#00272B] border-[#024950] hover:border-[#0FA4AF]/40'
+                    ? 'bg-[#26425A] border-[#86A8CF] shadow-[0_0_15px_rgba(134,168,207,0.25)]'
+                    : 'bg-[#0B1B3D] border-[#26425A] hover:border-[#86A8CF]/40'
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <h4 className="text-xs font-bold text-white leading-snug line-clamp-1">{item.title}</h4>
                   <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold whitespace-nowrap ${
                     item.status === 'APPROVED'
-                      ? 'bg-[#0FA4AF]/20 text-[#0FA4AF]'
+                      ? 'bg-[#86A8CF]/20 text-[#86A8CF]'
                       : item.status.includes('PENDING')
-                      ? 'bg-[#AFDDE5]/20 text-[#AFDDE5]'
-                      : 'bg-[#964734]/20 text-[#964734]'
+                      ? 'bg-[#E1CBD7]/20 text-[#E1CBD7]'
+                      : 'bg-[#C38EB4]/20 text-[#C38EB4]'
                   }`}>
                     {item.status.replace(/_/g, ' ')}
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-[#AFDDE5]/60 mt-2">
+                <div className="flex items-center justify-between text-[11px] text-[#E1CBD7]/60 mt-2">
                   <span>{item.authorName} ({item.department.split(' ')[0]})</span>
-                  <span className="font-mono text-[#0FA4AF] font-bold">{item.complianceScore}/100</span>
+                  <span className="font-mono text-[#86A8CF] font-bold">{item.complianceScore}/100</span>
                 </div>
               </div>
             ))}
@@ -198,18 +205,18 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
         <div className="lg:col-span-8 space-y-4">
           
           {selectedItem ? (
-            <div className="p-6 rounded-2xl bg-[#024950]/50 border border-[#0FA4AF]/20 shadow-xl space-y-5">
+            <div className="p-6 rounded-2xl bg-[#26425A]/60 border border-[#86A8CF]/25 shadow-xl space-y-5">
               
               {/* Submission Metadata Bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#024950]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#26425A]">
                 <div>
                   <h3 className="text-base font-bold text-white">{selectedItem.title}</h3>
-                  <div className="flex items-center space-x-3 text-xs text-[#AFDDE5]/60 mt-1">
+                  <div className="flex items-center space-x-3 text-xs text-[#E1CBD7]/70 mt-1">
                     <span>Submitted by: <strong className="text-white">{selectedItem.authorName}</strong></span>
                     <span>•</span>
                     <span>Department: {selectedItem.department}</span>
                     <span>•</span>
-                    <span className="font-mono text-[#0FA4AF]">Score: {selectedItem.complianceScore}/100</span>
+                    <span className="font-mono text-[#86A8CF] font-bold">Score: {selectedItem.complianceScore}/100</span>
                   </div>
                 </div>
 
@@ -218,9 +225,9 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
                   {(activeRole === 'MANAGER' || activeRole === 'ADMIN') && (
                     <button
                       onClick={handleManagerEndorse}
-                      className="px-3 py-1.5 rounded-lg bg-[#0FA4AF] hover:bg-[#0c8e98] text-[#003135] font-bold text-xs transition flex items-center space-x-1.5 shadow-sm"
+                      className="px-3 py-1.5 rounded-lg bg-[#86A8CF] hover:bg-[#7297c0] text-[#0B1B3D] font-bold text-xs transition flex items-center space-x-1.5 shadow-sm cursor-pointer"
                     >
-                      <CheckCircle className="w-3.5 h-3.5 text-[#003135]" />
+                      <CheckCircle className="w-3.5 h-3.5 text-[#0B1B3D]" />
                       <span>Endorse & Send to Legal</span>
                     </button>
                   )}
@@ -228,64 +235,135 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
                   {(activeRole === 'REVIEWER' || activeRole === 'ADMIN') && (
                     <button
                       onClick={handleFinalApproval}
-                      className="px-3.5 py-1.5 rounded-lg bg-[#0FA4AF] hover:bg-[#0c8e98] text-[#003135] font-bold text-xs transition flex items-center space-x-1.5 shadow-[0_0_15px_rgba(15,164,175,0.4)]"
+                      className="px-3.5 py-1.5 rounded-lg bg-[#86A8CF] hover:bg-[#7297c0] text-[#0B1B3D] font-bold text-xs transition flex items-center space-x-1.5 shadow-[0_0_15px_rgba(134,168,207,0.4)] cursor-pointer"
                     >
-                      <ShieldCheck className="w-4 h-4 text-[#003135]" />
+                      <ShieldCheck className="w-4 h-4 text-[#0B1B3D]" />
                       <span>Grant Final Approval</span>
                     </button>
                   )}
 
                   <button
                     onClick={handleRequestChanges}
-                    className="px-3 py-1.5 rounded-lg bg-[#003135] hover:bg-[#002225] border border-[#964734]/50 text-xs text-[#AFDDE5] transition flex items-center space-x-1"
+                    className="px-3 py-1.5 rounded-lg bg-[#0B1B3D] hover:bg-[#07111C] border border-[#C38EB4]/50 text-xs text-[#E1CBD7] transition flex items-center space-x-1 cursor-pointer"
                   >
-                    <RotateCcw className="w-3.5 h-3.5 text-[#964734]" />
+                    <RotateCcw className="w-3.5 h-3.5 text-[#C38EB4]" />
                     <span>Request Changes</span>
                   </button>
                 </div>
               </div>
 
-              {/* Side-by-Side Visual Diff Viewer */}
-              <div>
-                <span className="text-xs font-mono uppercase text-[#AFDDE5]/70 block mb-2">
-                  Visual Diff Comparison (Original vs Remediated Intent)
-                </span>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  
-                  {/* Left: Original Raw Draft */}
-                  <div className="p-4 rounded-xl bg-[#002225] border border-[#964734]/40 space-y-1.5">
-                    <span className="text-[11px] font-mono font-bold text-[#964734] uppercase flex items-center space-x-1">
-                      <span>• Original Creator Draft</span>
+              {/* Visual Diff Control Bar */}
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-xs font-mono uppercase text-[#E1CBD7]/70 block">
+                      Differential Remediation Viewer
                     </span>
-                    <p className="text-xs text-[#AFDDE5]/80 font-mono leading-relaxed select-text">
-                      {selectedItem.rawContent}
-                    </p>
+                    <div className="flex items-center space-x-2 text-[11px] font-mono">
+                      <span className="text-[#C38EB4]">-{deletionsCount} violations</span>
+                      <span className="text-[#86A8CF]">+{additionsCount} fixes</span>
+                    </div>
                   </div>
 
-                  {/* Right: Remediated Compliant Text */}
-                  <div className="p-4 rounded-xl bg-[#002225] border border-[#0FA4AF]/40 space-y-1.5">
-                    <span className="text-[11px] font-mono font-bold text-[#0FA4AF] uppercase flex items-center space-x-1">
-                      <span>✓ Remediated & Preserved Intent</span>
-                    </span>
-                    <p className="text-xs text-white font-mono leading-relaxed select-text">
-                      {selectedItem.remediatedContent}
-                    </p>
+                  {/* Diff Switcher Toggle */}
+                  <div className="flex bg-[#07111C] p-0.5 rounded-lg border border-[#86A8CF]/20 text-xs">
+                    <button
+                      onClick={() => setDiffViewMode('UNIFIED_HIGHLIGHT')}
+                      className={`px-2.5 py-1 rounded text-[11px] font-medium flex items-center space-x-1 transition cursor-pointer ${
+                        diffViewMode === 'UNIFIED_HIGHLIGHT'
+                          ? 'bg-[#86A8CF] text-[#0B1B3D] font-bold'
+                          : 'text-[#E1CBD7]/70 hover:text-white'
+                      }`}
+                    >
+                      <Highlighter className="w-3 h-3" />
+                      <span>Inline Highlighting</span>
+                    </button>
+                    <button
+                      onClick={() => setDiffViewMode('SIDE_BY_SIDE')}
+                      className={`px-2.5 py-1 rounded text-[11px] font-medium flex items-center space-x-1 transition cursor-pointer ${
+                        diffViewMode === 'SIDE_BY_SIDE'
+                          ? 'bg-[#86A8CF] text-[#0B1B3D] font-bold'
+                          : 'text-[#E1CBD7]/70 hover:text-white'
+                      }`}
+                    >
+                      <Split className="w-3 h-3" />
+                      <span>Side-by-Side</span>
+                    </button>
                   </div>
-
                 </div>
+
+                {/* Unified Highlight Mode */}
+                {diffViewMode === 'UNIFIED_HIGHLIGHT' && (
+                  <div className="p-4 rounded-xl bg-[#07111C] border border-[#86A8CF]/30 space-y-2">
+                    <span className="text-[11px] font-mono text-[#86A8CF] block">
+                      Intent-Preserving Diff (Dusty Rose: Original Violations, Cornflower: Compliant Suggestions):
+                    </span>
+                    <div className="text-xs font-mono leading-relaxed p-3 select-text bg-[#0B1B3D]/80 rounded-lg border border-white/5">
+                      {diffTokens.map((token, i) => {
+                        if (token.type === 'DELETE') {
+                          return (
+                            <span
+                              key={i}
+                              className="bg-[#C38EB4]/30 text-[#E1CBD7] line-through px-1.5 py-0.5 rounded border border-[#C38EB4]/50 mr-1"
+                              title="Original flagged text"
+                            >
+                              {token.text}
+                            </span>
+                          );
+                        }
+                        if (token.type === 'INSERT') {
+                          return (
+                            <span
+                              key={i}
+                              className="bg-[#86A8CF]/20 text-[#86A8CF] font-bold px-1.5 py-0.5 rounded border border-[#86A8CF]/40 mr-1"
+                              title="Remediated compliant alternative"
+                            >
+                              {token.text}
+                            </span>
+                          );
+                        }
+                        return <span key={i} className="text-[#E1CBD7]/80">{token.text}</span>;
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Side-by-Side Mode */}
+                {diffViewMode === 'SIDE_BY_SIDE' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Left: Original Raw Draft */}
+                    <div className="p-4 rounded-xl bg-[#07111C] border border-[#C38EB4]/40 space-y-1.5">
+                      <span className="text-[11px] font-mono font-bold text-[#C38EB4] uppercase flex items-center space-x-1">
+                        <span>• Original Creator Draft</span>
+                      </span>
+                      <p className="text-xs text-[#E1CBD7]/80 font-mono leading-relaxed select-text">
+                        {selectedItem.rawContent}
+                      </p>
+                    </div>
+
+                    {/* Right: Remediated Compliant Text */}
+                    <div className="p-4 rounded-xl bg-[#07111C] border border-[#86A8CF]/40 space-y-1.5">
+                      <span className="text-[11px] font-mono font-bold text-[#86A8CF] uppercase flex items-center space-x-1">
+                        <span>✓ Remediated & Preserved Intent</span>
+                      </span>
+                      <p className="text-xs text-white font-mono leading-relaxed select-text">
+                        {selectedItem.remediatedContent}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Threaded Review Comments */}
               <div className="space-y-3 pt-2">
-                <span className="text-xs font-mono uppercase text-[#AFDDE5]/70 block">
+                <span className="text-xs font-mono uppercase text-[#E1CBD7]/70 block">
                   Reviewer Collaboration Thread ({selectedItem.comments.length})
                 </span>
 
                 <div className="space-y-2 max-h-48 overflow-y-auto">
                   {selectedItem.comments.map(c => (
-                    <div key={c.id} className="p-3 rounded-lg bg-[#00272B] border border-[#024950] text-xs space-y-1">
-                      <div className="flex items-center justify-between text-[#AFDDE5]/60 text-[11px]">
+                    <div key={c.id} className="p-3 rounded-lg bg-[#0B1B3D] border border-[#26425A] text-xs space-y-1">
+                      <div className="flex items-center justify-between text-[#E1CBD7]/60 text-[11px]">
                         <span className="font-semibold text-white">{c.authorName} ({c.authorRole})</span>
                         <span className="font-mono">{c.timestamp}</span>
                       </div>
@@ -302,11 +380,11 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
                     value={commentInput}
                     onChange={(e) => setCommentInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
-                    className="flex-1 text-xs bg-[#002225] border border-[#0FA4AF]/30 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#0FA4AF]"
+                    className="flex-1 text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#86A8CF]"
                   />
                   <button
                     onClick={handleAddComment}
-                    className="px-4 py-2 rounded-xl bg-[#024950] hover:bg-[#035b64] text-xs font-bold text-[#0FA4AF] border border-[#0FA4AF]/40"
+                    className="px-4 py-2 rounded-xl bg-[#26425A] hover:bg-[#32526e] text-xs font-bold text-[#86A8CF] border border-[#86A8CF]/40 cursor-pointer"
                   >
                     Post Note
                   </button>
@@ -314,19 +392,19 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
               </div>
 
               {/* Complete Audit Trail */}
-              <div className="pt-2 border-t border-[#024950]">
-                <span className="text-xs font-mono uppercase text-[#AFDDE5]/70 block mb-2 flex items-center space-x-1">
-                  <History className="w-3.5 h-3.5 text-[#0FA4AF]" />
+              <div className="pt-2 border-t border-[#26425A]">
+                <span className="text-xs font-mono uppercase text-[#E1CBD7]/70 block mb-2 flex items-center space-x-1">
+                  <History className="w-3.5 h-3.5 text-[#86A8CF]" />
                   <span>Tamper-Proof Audit History</span>
                 </span>
                 
                 <div className="space-y-1.5 text-xs font-mono">
                   {selectedItem.historyTrail.map((h, i) => (
-                    <div key={i} className="flex items-center space-x-3 text-[#AFDDE5]/70">
-                      <span className="text-[10px] text-[#AFDDE5]/40">{h.timestamp}</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#0FA4AF]" />
+                    <div key={i} className="flex items-center space-x-3 text-[#E1CBD7]/70">
+                      <span className="text-[10px] text-[#E1CBD7]/40">{h.timestamp}</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#86A8CF]" />
                       <span className="text-white">{h.action}</span>
-                      <span className="text-[10px] text-[#AFDDE5]/50">({h.actor})</span>
+                      <span className="text-[10px] text-[#E1CBD7]/50">({h.actor})</span>
                     </div>
                   ))}
                 </div>
@@ -334,7 +412,7 @@ export const ReviewApprovalHub: React.FC<ReviewApprovalHubProps> = ({
 
             </div>
           ) : (
-            <div className="p-8 text-center text-[#AFDDE5]/60 bg-[#024950]/30 rounded-2xl border border-[#024950]">
+            <div className="p-8 text-center text-[#E1CBD7]/60 bg-[#26425A]/30 rounded-2xl border border-[#26425A]">
               Select a submission from the left queue to inspect diffs and approve.
             </div>
           )}

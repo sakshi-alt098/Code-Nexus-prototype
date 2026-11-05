@@ -1,0 +1,21 @@
+# Inkloom AI Brand Governance Microservice Dependencies
+fastapi>=0.111.0
+uvicorn>=0.30.0
+pydantic>=2.7.0
+python-multipart>=0.0.9
+requests>=2.31.0
+
+# NLP & Machine Learning
+torch>=2.2.0
+transformers>=4.41.0
+datasets>=2.19.0
+peft>=0.11.0
+scikit-learn>=1.4.0
+
+# Vector RAG & Embeddings
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+
+# Vision & Multimodal
+pillow>=10.3.0
+opencv-python-headless>=4.9.0

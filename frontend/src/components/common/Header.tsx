@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
         return [
           { id: 'STUDIO', label: 'Submission Studio', icon: <FileText className="w-3.5 h-3.5" /> },
           { id: 'MY_SUBMISSIONS', label: 'My Submissions', icon: <ListOrdered className="w-3.5 h-3.5" /> },
-          { id: 'VISUAL_CHECKER', label: 'Visual & WCAG Checker', icon: <Layers className="w-3.5 h-3.5" /> }
+          { id: 'VISUAL_CHECKER', label: 'Visual & WCAG Suite', icon: <Layers className="w-3.5 h-3.5" /> }
         ];
       case 'MANAGER':
         return [
@@ -49,31 +49,31 @@ export const Header: React.FC<HeaderProps> = ({
   const tabs = getNavTabs();
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#00272B]/95 backdrop-blur-md border-b border-[#024950]">
+    <header className="sticky top-0 z-40 w-full bg-[#0B1B3D]/95 backdrop-blur-md border-b border-[#26425A] shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
           {/* Logo & Portal Identity */}
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-[#0FA4AF] flex items-center justify-center font-black text-[#003135] shadow-[0_0_15px_rgba(15,164,175,0.4)]">
-              <Shield className="w-5 h-5 text-[#003135]" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#86A8CF] to-[#C38EB4] flex items-center justify-center font-black text-[#0B1B3D] shadow-[0_0_15px_rgba(134,168,207,0.4)]">
+              <Shield className="w-5 h-5 text-[#0B1B3D]" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
                 <span className="text-base font-bold tracking-tight text-white">Inkloom AI</span>
                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
                   currentUser.role === 'CREATOR'
-                    ? 'bg-[#0FA4AF]/20 text-[#0FA4AF] border border-[#0FA4AF]/30'
+                    ? 'bg-[#86A8CF]/20 text-[#86A8CF] border border-[#86A8CF]/30'
                     : currentUser.role === 'MANAGER'
-                    ? 'bg-[#AFDDE5]/20 text-[#AFDDE5] border border-[#AFDDE5]/30'
+                    ? 'bg-[#E1CBD7]/20 text-[#E1CBD7] border border-[#E1CBD7]/30'
                     : currentUser.role === 'REVIEWER'
-                    ? 'bg-[#964734]/20 text-[#964734] border border-[#964734]/30'
+                    ? 'bg-[#C38EB4]/20 text-[#C38EB4] border border-[#C38EB4]/30'
                     : 'bg-white/20 text-white border border-white/30'
                 }`}>
                   {currentUser.role} DASHBOARD
                 </span>
               </div>
-              <p className="text-[10px] text-[#AFDDE5]/60 hidden sm:block">
+              <p className="text-[10px] text-[#E1CBD7]/70 hidden sm:block">
                 {currentUser.role === 'CREATOR' && 'Authoring & Pre-Flight Compliance'}
                 {currentUser.role === 'MANAGER' && 'Department Endorsement & Review Queue'}
                 {currentUser.role === 'REVIEWER' && 'Authorised Legal & Brand Sign-Off'}
@@ -86,30 +86,30 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center space-x-3">
             
             {/* User Profile Info */}
-            <div className="hidden md:flex items-center space-x-3 bg-[#002024] px-3 py-1.5 rounded-xl border border-[#024950]">
-              <div className="w-7 h-7 rounded-lg bg-[#0FA4AF]/20 border border-[#0FA4AF]/40 flex items-center justify-center text-xs font-bold text-[#0FA4AF]">
+            <div className="hidden md:flex items-center space-x-3 bg-[#07111C] px-3 py-1.5 rounded-xl border border-[#26425A]">
+              <div className="w-7 h-7 rounded-lg bg-[#86A8CF]/20 border border-[#86A8CF]/40 flex items-center justify-center text-xs font-bold text-[#86A8CF]">
                 {currentUser.name.split(' ').map(n => n[0]).join('')}
               </div>
               <div className="text-left text-xs">
                 <span className="font-bold text-white block leading-tight">{currentUser.name}</span>
-                <span className="text-[10px] text-[#AFDDE5]/60">{currentUser.department}</span>
+                <span className="text-[10px] text-[#E1CBD7]/60">{currentUser.department}</span>
               </div>
             </div>
 
-            {/* Intro Video Button */}
+            {/* Intro Video / Animation Replay Button */}
             <button
               onClick={onReplayIntro}
-              className="px-2.5 py-1.5 rounded-lg bg-[#024950] hover:bg-[#035b64] text-xs text-[#AFDDE5] border border-[#0FA4AF]/30 transition flex items-center space-x-1.5"
+              className="px-2.5 py-1.5 rounded-lg bg-[#26425A] hover:bg-[#32526e] text-xs text-[#E1CBD7] border border-[#86A8CF]/30 transition flex items-center space-x-1.5 cursor-pointer"
               title="Replay intro animation"
             >
-              <Play className="w-3.5 h-3.5 text-[#0FA4AF]" />
-              <span className="hidden lg:inline">Intro</span>
+              <Play className="w-3.5 h-3.5 text-[#86A8CF]" />
+              <span className="hidden lg:inline">Intro Animation</span>
             </button>
 
             {/* Switch Role / Logout */}
             <button
               onClick={onLogout}
-              className="px-3 py-1.5 rounded-lg bg-[#002024] hover:bg-[#964734]/20 border border-[#024950] hover:border-[#964734]/60 text-xs font-semibold text-[#AFDDE5] hover:text-[#964734] transition flex items-center space-x-1.5"
+              className="px-3 py-1.5 rounded-lg bg-[#07111C] hover:bg-[#C38EB4]/20 border border-[#26425A] hover:border-[#C38EB4]/60 text-xs font-semibold text-[#E1CBD7] hover:text-[#C38EB4] transition flex items-center space-x-1.5 cursor-pointer"
               title="Switch user role or log out"
             >
               <LogOut className="w-3.5 h-3.5" />
@@ -119,21 +119,21 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Role-Specific Navigation Tabs */}
-        <div className="flex items-center space-x-1 border-t border-[#024950]/60 py-1.5 overflow-x-auto">
+        <div className="flex items-center space-x-1 border-t border-[#26425A]/60 py-1.5 overflow-x-auto">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-medium flex items-center space-x-2 transition ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-medium flex items-center space-x-2 transition cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-[#024950] text-[#0FA4AF] font-bold border border-[#0FA4AF]/40 shadow-sm'
-                  : 'text-[#AFDDE5]/70 hover:text-white hover:bg-[#024950]/50'
+                  ? 'bg-[#26425A] text-[#86A8CF] font-bold border border-[#86A8CF]/40 shadow-sm'
+                  : 'text-[#E1CBD7]/70 hover:text-white hover:bg-[#26425A]/50'
               }`}
             >
               {tab.icon}
               <span>{tab.label}</span>
               {typeof tab.badge === 'number' && tab.badge > 0 && (
-                <span className="w-4 h-4 rounded-full bg-[#964734] text-white text-[10px] font-bold flex items-center justify-center">
+                <span className="w-4 h-4 rounded-full bg-[#C38EB4] text-[#0B1B3D] text-[10px] font-bold flex items-center justify-center">
                   {tab.badge}
                 </span>
               )}

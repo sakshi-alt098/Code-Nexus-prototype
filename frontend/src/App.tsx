@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { UserAccount, SubmissionItem } from './types';
 import { INITIAL_SUBMISSIONS } from './data/mockSubmissions';
-import { DEMO_ACCOUNTS } from './data/mockUsers';
 import { Header } from './components/common/Header';
 import { LoginPage } from './components/auth/LoginPage';
-import { StartingVideoIntro } from './components/common/StartingVideoIntro';
+import { FullPageIntroAnimation } from './components/common/FullPageIntroAnimation';
 import { SubmissionStudio } from './components/creator/SubmissionStudio';
 import { MySubmissionsView } from './components/creator/MySubmissionsView';
 import { ReviewApprovalHub } from './components/review/ReviewApprovalHub';
@@ -21,8 +20,8 @@ export function App() {
   const [submissions, setSubmissions] = useState<SubmissionItem[]>(INITIAL_SUBMISSIONS);
   const [activeSubmission, setActiveSubmission] = useState<SubmissionItem>(INITIAL_SUBMISSIONS[0]);
   
-  // Modals & Notifications
-  const [showIntroModal, setShowIntroModal] = useState(false);
+  // Modals & Full-Page Intro (Default to true for cinematic full-page starting animation)
+  const [showIntroModal, setShowIntroModal] = useState(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const triggerToast = (msg: string) => {
@@ -33,7 +32,6 @@ export function App() {
   // Role-Specific Login Dispatcher
   const handleLogin = (user: UserAccount) => {
     setCurrentUser(user);
-    // Set default landing tab tailored specifically to the logged-in role
     switch (user.role) {
       case 'CREATOR':
         setActiveTab('STUDIO');
@@ -84,47 +82,33 @@ export function App() {
     return false;
   }).length;
 
-  // 1. If not logged in, render the Role Login Page
+  // 1. Full-Page Starting Animation (Active on load or triggered on demand)
+  if (showIntroModal) {
+    return (
+      <FullPageIntroAnimation 
+        onEnter={() => setShowIntroModal(false)}
+        showDismissButton={true}
+      />
+    );
+  }
+
+  // 2. If not logged in, render Role Login Page
   if (!currentUser) {
     return (
-      <>
-        {showIntroModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-            <div className="w-full max-w-4xl">
-              <StartingVideoIntro 
-                onEnter={() => setShowIntroModal(false)}
-                showDismissButton={true}
-              />
-            </div>
-          </div>
-        )}
-        <LoginPage
-          onLogin={handleLogin}
-          onWatchIntro={() => setShowIntroModal(true)}
-        />
-      </>
+      <LoginPage
+        onLogin={handleLogin}
+        onWatchIntro={() => setShowIntroModal(true)}
+      />
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#003135] text-[#AFDDE5] flex flex-col font-sans">
-      
-      {/* Starting Video Intro Modal (Triggerable on demand) */}
-      {showIntroModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="w-full max-w-4xl">
-            <StartingVideoIntro 
-              onEnter={() => setShowIntroModal(false)}
-              showDismissButton={true}
-            />
-          </div>
-        </div>
-      )}
+    <div className="min-h-screen bg-[#0B1B3D] text-[#E1CBD7] flex flex-col font-sans selection:bg-[#86A8CF]/30 selection:text-white">
 
       {/* Global Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-[#024950] border border-[#0FA4AF] text-white text-xs font-semibold shadow-2xl flex items-center space-x-2 animate-bounce">
-          <span className="w-2 h-2 rounded-full bg-[#0FA4AF]" />
+        <div className="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-[#26425A] border border-[#86A8CF] text-white text-xs font-semibold shadow-2xl flex items-center space-x-2 animate-bounce">
+          <span className="w-2 h-2 rounded-full bg-[#86A8CF]" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -224,7 +208,7 @@ export function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#024950] py-4 bg-[#00272B] text-center text-xs text-[#AFDDE5]/60 font-mono">
+      <footer className="border-t border-[#26425A] py-4 bg-[#07111C] text-center text-xs text-[#E1CBD7]/60 font-mono">
         <p>Inkloom AI Brand Governance Platform • Logged in as: {currentUser.name} ({currentUser.role})</p>
       </footer>
 

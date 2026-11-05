@@ -1,11 +1,11 @@
 import { BrandGuidelineRule } from '../types';
 
 export const OFFICIAL_BRAND_PALETTE = [
-  { name: 'Deep Petrol (Dark Canvas)', hex: '#003135', role: 'Base Background & Frame' },
-  { name: 'Ocean Teal (Card Surface)', hex: '#024950', role: 'Container & Navigation Background' },
-  { name: 'Terracotta Rust (Alert & High Severity)', hex: '#964734', role: 'Critical Risk Highlights & Violations' },
-  { name: 'Vibrant Turquoise (Interactive Accent)', hex: '#0FA4AF', role: 'CTA Buttons, Scans & Primary Focus' },
-  { name: 'Ice Blue (Heading & Light Tint)', hex: '#AFDDE5', role: 'Primary Typography & Muted Badges' }
+  { name: 'Midnight Sapphire (Base Canvas)', hex: '#0B1B3D', role: 'Base Background & Frame' },
+  { name: 'Slate Navy (Card Surface)', hex: '#26425A', role: 'Container & Navigation Background' },
+  { name: 'Cornflower Blue (Primary Accent)', hex: '#86A8CF', role: 'CTA Buttons, Scans & Primary Focus' },
+  { name: 'Dusty Orchid (Alert & High Severity)', hex: '#C38EB4', role: 'Critical Risk Highlights & Violations' },
+  { name: 'Pale Blush Lavender (Primary Text)', hex: '#E1CBD7', role: 'Primary Typography & Muted Badges' }
 ];
 
 export const MOCK_GUIDELINE_RULES: BrandGuidelineRule[] = [

@@ -8,32 +8,40 @@ export default {
   theme: {
     extend: {
       colors: {
+        ink: {
+          midnight: '#0B1B3D',   // Base dark canvas / navigation
+          slate: '#26425A',      // Card & panel surface
+          cornflower: '#86A8CF', // Interactive primary, active tabs, buttons
+          orchid: '#C38EB4',     // Critical alerts & unsupported claims
+          blush: '#E1CBD7',      // Headings, icons, text tint
+          well: '#07111C',       // Code wells, textareas
+        },
         brand: {
           petrol: {
-            deep: '#003135',   // Base dark canvas / navigation
-            surface: '#024950',// Card & panel surface
-            border: '#046872', // Subtle borders
+            deep: '#0B1B3D',   // Base dark canvas
+            surface: '#26425A',// Card & panel surface
+            border: '#355370', // Subtle borders
           },
           terracotta: {
-            DEFAULT: '#964734',// Critical alerts & unsupported claims
-            hover: '#7E3827',
-            light: 'rgba(150, 71, 52, 0.15)'
+            DEFAULT: '#C38EB4',// Critical alerts & unsupported claims (Dusty Orchid)
+            hover: '#AB729C',
+            light: 'rgba(195, 142, 180, 0.15)'
           },
           cyan: {
-            DEFAULT: '#0FA4AF',// Interactive primary, active tabs, buttons
-            hover: '#0C838C',
-            glow: 'rgba(15, 164, 175, 0.25)'
+            DEFAULT: '#86A8CF',// Interactive primary (Cornflower Blue)
+            hover: '#7297C0',
+            glow: 'rgba(134, 168, 207, 0.3)'
           },
           ice: {
-            DEFAULT: '#AFDDE5',// Headings, icons, text tint
-            muted: 'rgba(175, 221, 229, 0.75)',
-            subtle: 'rgba(175, 221, 229, 0.10)'
+            DEFAULT: '#E1CBD7',// Headings, icons, text tint (Pale Blush)
+            muted: 'rgba(225, 203, 215, 0.75)',
+            subtle: 'rgba(225, 203, 215, 0.10)'
           }
         }
       },
       boxShadow: {
-        'brand-glow': '0 0 20px rgba(15, 164, 175, 0.25)',
-        'alert-glow': '0 0 20px rgba(150, 71, 52, 0.25)',
+        'brand-glow': '0 0 20px rgba(134, 168, 207, 0.35)',
+        'alert-glow': '0 0 20px rgba(195, 142, 180, 0.35)',
       }
     },
   },
