@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Sparkles, Eye, EyeOff } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 interface FullPageIntroAnimationProps {
   onEnter: () => void;
@@ -13,16 +13,16 @@ export const FullPageIntroAnimation: React.FC<FullPageIntroAnimationProps> = ({
   const [showLight, setShowLight] = useState(true);
 
   return (
-    <div className="fixed inset-0 z-50 w-screen h-screen overflow-hidden bg-[#0B1B3D] select-none font-sans">
+    <div className="fixed inset-0 z-50 w-screen h-screen overflow-hidden bg-[#0A0912] select-none font-sans">
       
-      {/* Scoped CSS for Keyframe Rotations & Stroke Animation */}
+      {/* Scoped CSS for Keyframe Rotations & Stroke Animation in Lavender Black theme */}
       <style>{`
         #intro-wrapper {
           width: 100%;
           height: 100vh;
           position: relative;
           overflow: hidden;
-          background: #0B1B3D url('https://user-images.githubusercontent.com/26748614/112761068-a9015e80-8ff9-11eb-9574-58724ea6e397.jpg');
+          background: #0A0912 url('https://user-images.githubusercontent.com/26748614/112761068-a9015e80-8ff9-11eb-9574-58724ea6e397.jpg');
           background-size: cover;
           background-position: 50% 50%;
         }
@@ -52,12 +52,12 @@ export const FullPageIntroAnimation: React.FC<FullPageIntroAnimationProps> = ({
         }
 
         .wordsFill {
-          fill: rgb(11, 27, 61);
+          fill: rgb(10, 9, 18);
         }
 
         .wordsStroke {
           fill: none;
-          stroke: #E1CBD7;
+          stroke: #B69DF8;
           stroke-miterlimit: 10;
           stroke-width: 2px;
           stroke-dasharray: 100;
@@ -75,39 +75,39 @@ export const FullPageIntroAnimation: React.FC<FullPageIntroAnimationProps> = ({
 
       <div id="intro-wrapper">
         
-        {/* Top Floating Branding Bar */}
-        <div className="absolute top-0 left-0 right-0 z-20 p-6 flex items-center justify-between bg-gradient-to-b from-[#0B1B3D]/90 via-[#0B1B3D]/50 to-transparent backdrop-blur-[2px]">
+        {/* Top Floating Branding Bar without team name */}
+        <div className="absolute top-0 left-0 right-0 z-20 p-6 flex items-center justify-between bg-gradient-to-b from-[#0A0912]/95 via-[#0A0912]/60 to-transparent backdrop-blur-[2px]">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#86A8CF] to-[#C38EB4] flex items-center justify-center font-black text-[#0B1B3D] text-base shadow-[0_0_20px_rgba(134,168,207,0.5)]">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#B69DF8] to-[#E879F9] flex items-center justify-center font-black text-[#0A0912] text-base shadow-[0_0_25px_rgba(182,157,248,0.5)]">
               IK
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-lg font-extrabold tracking-tight text-[#E1CBD7]">Inkloom AI</span>
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[#86A8CF]/20 text-[#86A8CF] border border-[#86A8CF]/40">
+                <span className="text-lg font-extrabold tracking-tight text-[#EDE9FE]">Inkloom AI</span>
+                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[#B69DF8]/20 text-[#B69DF8] border border-[#B69DF8]/40">
                   Brand Governance
                 </span>
               </div>
-              <p className="text-[11px] text-[#E1CBD7]/70 font-mono">Team: Ek Kachori Do Samosa</p>
+              <p className="text-[11px] text-[#EDE9FE]/60 font-mono">Pre-Flight Policy & Claim Verification</p>
             </div>
           </div>
 
           {showDismissButton && (
             <button
               onClick={onEnter}
-              className="px-5 py-2.5 rounded-xl bg-[#86A8CF] hover:bg-[#7297c0] text-[#0B1B3D] font-bold text-xs tracking-wide transition shadow-[0_0_25px_rgba(134,168,207,0.6)] flex items-center space-x-2 cursor-pointer transform hover:scale-105 active:scale-95"
+              className="px-5 py-2.5 rounded-xl bg-[#B69DF8] hover:bg-[#a688f7] text-[#0A0912] font-bold text-xs tracking-wide transition shadow-[0_0_25px_rgba(182,157,248,0.5)] flex items-center space-x-2 cursor-pointer transform hover:scale-105 active:scale-95"
             >
               <span>Enter Platform</span>
-              <ArrowRight className="w-4 h-4 text-[#0B1B3D]" />
+              <ArrowRight className="w-4 h-4 text-[#0A0912]" />
             </button>
           )}
         </div>
 
-        {/* The Exact User SVG Animation */}
+        {/* User SVG Spotlight Animation */}
         <svg id="intro-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 450">
           <defs>
             <linearGradient id="gradiantLight" x1="50%" y1="100%" x2="50%" y2="0%">
-              <stop offset="60%" stopColor="rgba(195,142,180,0.4)" />
+              <stop offset="60%" stopColor="rgba(182,157,248,0.4)" />
               <stop offset="80%" stopColor="rgba(255,255,255,0)" />
             </linearGradient>
 
@@ -148,7 +148,7 @@ export const FullPageIntroAnimation: React.FC<FullPageIntroAnimationProps> = ({
           {showLight && (
             <g id="reflector" className="intro-rotate" filter="url(#blurFilter)">
               <polygon fill="url(#gradiantLight)" points="491.3 155.2 595.8 908.4 688.7 908.2 788.7 154.5 491.3 155.2" />
-              <ellipse fill="rgba(255,255,255,0.15)" cx="640" cy="154.9" rx="148.7" ry="129.9" transform="translate(-0.3 1.4)" />
+              <ellipse fill="rgba(182,157,248,0.2)" cx="640" cy="154.9" rx="148.7" ry="129.9" transform="translate(-0.3 1.4)" />
             </g>
           )}
 
@@ -158,16 +158,11 @@ export const FullPageIntroAnimation: React.FC<FullPageIntroAnimationProps> = ({
         {/* Toggle Light Button */}
         <button
           onClick={() => setShowLight(!showLight)}
-          className="absolute right-8 bottom-16 z-20 px-4 py-2.5 rounded-xl bg-[#26425A]/90 hover:bg-[#26425A] text-[#E1CBD7] hover:text-white text-xs font-semibold border border-[#86A8CF]/30 transition shadow-lg flex items-center space-x-2 cursor-pointer backdrop-blur-sm"
+          className="absolute right-8 bottom-8 z-20 px-4 py-2.5 rounded-xl bg-[#151324]/90 hover:bg-[#1A172E] text-[#EDE9FE] hover:text-white text-xs font-semibold border border-[#B69DF8]/30 transition shadow-xl flex items-center space-x-2 cursor-pointer backdrop-blur-sm"
         >
-          {showLight ? <EyeOff className="w-3.5 h-3.5 text-[#C38EB4]" /> : <Eye className="w-3.5 h-3.5 text-[#86A8CF]" />}
+          {showLight ? <EyeOff className="w-3.5 h-3.5 text-[#E879F9]" /> : <Eye className="w-3.5 h-3.5 text-[#B69DF8]" />}
           <span>{showLight ? 'Hide Light' : 'Show Light'}</span>
         </button>
-
-        {/* Info Text Footer */}
-        <div className="absolute left-0 bottom-0 z-20 w-full py-2.5 px-4 bg-[#07111C]/80 border-t border-[#26425A]/50 text-center text-xs text-[#E1CBD7]/70 font-mono backdrop-blur-sm">
-          * For the best visual experience, use Chrome, Edge, or Opera Browser • Inkloom AI Pre-Flight Brand Governance
-        </div>
 
       </div>
 

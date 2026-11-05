@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { UserAccount, SubmissionItem } from './types';
+import { DEMO_ACCOUNTS } from './data/mockUsers';
 import { INITIAL_SUBMISSIONS } from './data/mockSubmissions';
 import { Header } from './components/common/Header';
 import { LoginPage } from './components/auth/LoginPage';
@@ -12,16 +13,24 @@ import { KnowledgeBaseManager } from './components/admin/KnowledgeBaseManager';
 import { GovernanceAnalytics } from './components/analytics/GovernanceAnalytics';
 
 export function App() {
-  // Authentication & Session State
-  const [currentUser, setCurrentUser] = useState<UserAccount | null>(null);
+  // Authentication & Session State - Default to Creator demo account for immediate usability, or allow login
+  const [currentUser, setCurrentUser] = useState<UserAccount | null>(() => DEMO_ACCOUNTS[0]);
   const [activeTab, setActiveTab] = useState<string>('STUDIO');
   
-  // Data State
+  // Submissions Data State
   const [submissions, setSubmissions] = useState<SubmissionItem[]>(INITIAL_SUBMISSIONS);
   const [activeSubmission, setActiveSubmission] = useState<SubmissionItem>(INITIAL_SUBMISSIONS[0]);
   
-  // Modals & Full-Page Intro (Default to true for cinematic full-page starting animation)
-  const [showIntroModal, setShowIntroModal] = useState(true);
+  // Starting Animation State: Display ONLY ONCE per session, preserved on reload
+  const [showIntroModal, setShowIntroModal] = useState<boolean>(() => {
+    try {
+      const seen = sessionStorage.getItem('inkloom_intro_seen');
+      return !seen;
+    } catch {
+      return false;
+    }
+  });
+
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const triggerToast = (msg: string) => {
@@ -29,29 +38,35 @@ export function App() {
     setTimeout(() => setToastMessage(null), 3500);
   };
 
-  // Role-Specific Login Dispatcher
+  const handleDismissIntro = () => {
+    try {
+      sessionStorage.setItem('inkloom_intro_seen', 'true');
+    } catch {
+      // ignore
+    }
+    setShowIntroModal(false);
+  };
+
   const handleLogin = (user: UserAccount) => {
     setCurrentUser(user);
-    switch (user.role) {
-      case 'CREATOR':
-        setActiveTab('STUDIO');
-        break;
-      case 'MANAGER':
-        setActiveTab('REVIEW_HUB');
-        break;
-      case 'REVIEWER':
-        setActiveTab('REVIEW_HUB');
-        break;
-      case 'ADMIN':
-        setActiveTab('KNOWLEDGE_BASE');
-        break;
-    }
-    triggerToast(`Logged in as ${user.name} (${user.role})`);
+    if (user.role === 'CREATOR') setActiveTab('STUDIO');
+    else if (user.role === 'MANAGER' || user.role === 'REVIEWER') setActiveTab('REVIEW_HUB');
+    else if (user.role === 'ADMIN') setActiveTab('KNOWLEDGE_BASE');
+    triggerToast(`Active persona: ${user.name} (${user.role})`);
+  };
+
+  const handleSwitchRole = (role: 'CREATOR' | 'MANAGER' | 'REVIEWER' | 'ADMIN') => {
+    const acc = DEMO_ACCOUNTS.find(a => a.role === role) || DEMO_ACCOUNTS[0];
+    setCurrentUser(acc);
+    if (role === 'CREATOR') setActiveTab('STUDIO');
+    else if (role === 'MANAGER' || role === 'REVIEWER') setActiveTab('REVIEW_HUB');
+    else if (role === 'ADMIN') setActiveTab('KNOWLEDGE_BASE');
+    triggerToast(`Switched persona to ${acc.name} (${role})`);
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
-    triggerToast('Logged out successfully');
+    triggerToast('Logged out of workspace');
   };
 
   const handleNewSubmission = (newSub: SubmissionItem) => {
@@ -62,8 +77,8 @@ export function App() {
       }
       return [newSub, ...prev];
     });
-    triggerToast(`"${newSub.title}" sent for Manager Review!`);
-    setActiveTab('MY_SUBMISSIONS');
+    triggerToast(`"${newSub.title}" submitted for Manager Review!`);
+    setActiveTab('REVIEW_HUB');
   };
 
   const handleUpdateSubmission = (updated: SubmissionItem) => {
@@ -71,28 +86,28 @@ export function App() {
     if (activeSubmission.id === updated.id) {
       setActiveSubmission(updated);
     }
-    triggerToast(`Submission status: ${updated.status.replace(/_/g, ' ')}`);
+    triggerToast(`Status updated: ${updated.status.replace(/_/g, ' ')}`);
   };
 
-  // Calculate pending reviews for Manager and Reviewer badges
+  // Pending reviews count
   const pendingCount = submissions.filter(s => {
     if (!currentUser) return false;
     if (currentUser.role === 'MANAGER') return s.status === 'PENDING_MANAGER_REVIEW';
     if (currentUser.role === 'REVIEWER') return s.status === 'PENDING_LEGAL_REVIEW';
-    return false;
+    return s.status.includes('PENDING');
   }).length;
 
-  // 1. Full-Page Starting Animation (Active on load or triggered on demand)
+  // 1. Full-Page Starting Animation (shown only once on first open or upon manual replay)
   if (showIntroModal) {
     return (
       <FullPageIntroAnimation 
-        onEnter={() => setShowIntroModal(false)}
+        onEnter={handleDismissIntro}
         showDismissButton={true}
       />
     );
   }
 
-  // 2. If not logged in, render Role Login Page
+  // 2. Fallback to Login if user logs out
   if (!currentUser) {
     return (
       <LoginPage
@@ -103,113 +118,74 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B1B3D] text-[#E1CBD7] flex flex-col font-sans selection:bg-[#86A8CF]/30 selection:text-white">
+    <div className="min-h-screen bg-[#0A0912] text-[#EDE9FE] flex flex-col font-sans selection:bg-[#B69DF8]/30 selection:text-white">
 
       {/* Global Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-[#26425A] border border-[#86A8CF] text-white text-xs font-semibold shadow-2xl flex items-center space-x-2 animate-bounce">
-          <span className="w-2 h-2 rounded-full bg-[#86A8CF]" />
+        <div className="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-[#151324] border border-[#B69DF8]/40 text-[#EDE9FE] text-xs font-semibold shadow-[0_0_20px_rgba(182,157,248,0.25)] flex items-center space-x-2 animate-bounce">
+          <span className="w-2 h-2 rounded-full bg-[#B69DF8]" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Role-Specific Header with RBAC Tabs */}
+      {/* Role-Specific Header with 1-Click Role Switcher */}
       <Header
         currentUser={currentUser}
         onLogout={handleLogout}
+        onSwitchRole={handleSwitchRole}
         activeTab={activeTab}
         onTabChange={setActiveTab}
         onReplayIntro={() => setShowIntroModal(true)}
         pendingCount={pendingCount}
       />
 
-      {/* Main Workspace Rendered by Role Security */}
+      {/* Main Workspace Rendered by Tab */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        {/* ==================== CREATOR ONLY VIEWS ==================== */}
-        {currentUser.role === 'CREATOR' && (
-          <>
-            {activeTab === 'STUDIO' && (
-              <SubmissionStudio
-                onNewSubmissionCreated={handleNewSubmission}
-                activeItem={activeSubmission}
-                setActiveItem={setActiveSubmission}
-              />
-            )}
-
-            {activeTab === 'MY_SUBMISSIONS' && (
-              <MySubmissionsView
-                submissions={submissions}
-                currentUserEmail={currentUser.email}
-                onEditSubmission={(sub) => {
-                  setActiveSubmission(sub);
-                  setActiveTab('STUDIO');
-                }}
-              />
-            )}
-
-            {activeTab === 'VISUAL_CHECKER' && (
-              <VisualAccessibilityChecker />
-            )}
-          </>
+        {activeTab === 'STUDIO' && (
+          <SubmissionStudio
+            onNewSubmissionCreated={handleNewSubmission}
+            activeItem={activeSubmission}
+            setActiveItem={setActiveSubmission}
+          />
         )}
 
-        {/* ==================== MANAGER ONLY VIEWS ==================== */}
-        {currentUser.role === 'MANAGER' && (
-          <>
-            {activeTab === 'REVIEW_HUB' && (
-              <ReviewApprovalHub
-                submissions={submissions}
-                activeRole={currentUser.role}
-                onUpdateSubmission={handleUpdateSubmission}
-              />
-            )}
-          </>
+        {activeTab === 'MY_SUBMISSIONS' && (
+          <MySubmissionsView
+            submissions={submissions}
+            currentUserEmail={currentUser.email}
+            onEditSubmission={(sub) => {
+              setActiveSubmission(sub);
+              setActiveTab('STUDIO');
+            }}
+          />
         )}
 
-        {/* ==================== REVIEWER ONLY VIEWS ==================== */}
-        {currentUser.role === 'REVIEWER' && (
-          <>
-            {activeTab === 'REVIEW_HUB' && (
-              <ReviewApprovalHub
-                submissions={submissions}
-                activeRole={currentUser.role}
-                onUpdateSubmission={handleUpdateSubmission}
-              />
-            )}
-
-            {activeTab === 'ANALYTICS' && (
-              <GovernanceAnalytics />
-            )}
-          </>
+        {activeTab === 'REVIEW_HUB' && (
+          <ReviewApprovalHub
+            submissions={submissions}
+            activeRole={currentUser.role}
+            onUpdateSubmission={handleUpdateSubmission}
+          />
         )}
 
-        {/* ==================== ADMIN ONLY VIEWS ==================== */}
-        {currentUser.role === 'ADMIN' && (
-          <>
-            {activeTab === 'KNOWLEDGE_BASE' && (
-              <KnowledgeBaseManager />
-            )}
+        {activeTab === 'VISUAL_CHECKER' && (
+          <VisualAccessibilityChecker />
+        )}
 
-            {activeTab === 'ANALYTICS' && (
-              <GovernanceAnalytics />
-            )}
+        {activeTab === 'ANALYTICS' && (
+          <GovernanceAnalytics />
+        )}
 
-            {activeTab === 'REVIEW_HUB' && (
-              <ReviewApprovalHub
-                submissions={submissions}
-                activeRole={currentUser.role}
-                onUpdateSubmission={handleUpdateSubmission}
-              />
-            )}
-          </>
+        {activeTab === 'KNOWLEDGE_BASE' && (
+          <KnowledgeBaseManager />
         )}
 
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-[#26425A] py-4 bg-[#07111C] text-center text-xs text-[#E1CBD7]/60 font-mono">
-        <p>Inkloom AI Brand Governance Platform • Logged in as: {currentUser.name} ({currentUser.role})</p>
+      {/* Streamlined Footer */}
+      <footer className="border-t border-[#2E2A4A] py-3 bg-[#0A0912] text-center text-xs text-[#EDE9FE]/50 font-mono">
+        <p>Inkloom AI Brand Governance Platform • Active Session: {currentUser.name} ({currentUser.role})</p>
       </footer>
 
     </div>

@@ -1,11 +1,11 @@
 import { BrandGuidelineRule } from '../types';
 
 export const OFFICIAL_BRAND_PALETTE = [
-  { name: 'Midnight Sapphire (Base Canvas)', hex: '#0B1B3D', role: 'Base Background & Frame' },
-  { name: 'Slate Navy (Card Surface)', hex: '#26425A', role: 'Container & Navigation Background' },
-  { name: 'Cornflower Blue (Primary Accent)', hex: '#86A8CF', role: 'CTA Buttons, Scans & Primary Focus' },
-  { name: 'Dusty Orchid (Alert & High Severity)', hex: '#C38EB4', role: 'Critical Risk Highlights & Violations' },
-  { name: 'Pale Blush Lavender (Primary Text)', hex: '#E1CBD7', role: 'Primary Typography & Muted Badges' }
+  { name: 'Obsidian Black (Canvas Base)', hex: '#0A0912', role: 'Base Background & Frame' },
+  { name: 'Lavender Slate (Card Surface)', hex: '#151324', role: 'Container & Navigation Background' },
+  { name: 'Soft Lavender (Primary Accent)', hex: '#B69DF8', role: 'CTA Buttons, Scans & Primary Focus' },
+  { name: 'Rose Violet (Alert & Warning)', hex: '#E879F9', role: 'Critical Risk Highlights & Violations' },
+  { name: 'Pale Mist (High-Contrast Text)', hex: '#EDE9FE', role: 'Primary Typography & Muted Badges' }
 ];
 
 export const MOCK_GUIDELINE_RULES: BrandGuidelineRule[] = [
@@ -31,14 +31,14 @@ export const MOCK_GUIDELINE_RULES: BrandGuidelineRule[] = [
   },
   {
     id: 'rule-03',
-    category: 'Legal Safeguards',
+    category: 'Legal & Privacy Safeguards',
     sectionCode: '§1.4',
     ruleName: 'Absolute Risk Elimination Guarantees',
     description: 'Marketing content must not guarantee zero risk or indefinite legal immunity. Statements must reflect dependable risk mitigation and governance controls.',
     bannedExample: 'Guaranteed to eliminate 100% of brand compliance risk forever.',
     approvedAlternative: 'Engineered to significantly mitigate non-compliant messaging before publication.',
     overrideCount: 19,
-    isAmbiguousWarning: true // High manager override count indicates ambiguity!
+    isAmbiguousWarning: true
   },
   {
     id: 'rule-04',
@@ -53,10 +53,10 @@ export const MOCK_GUIDELINE_RULES: BrandGuidelineRule[] = [
   },
   {
     id: 'rule-05',
-    category: 'Accessibility',
+    category: 'Accessibility & Privacy Policy',
     sectionCode: '§6.1',
-    ruleName: 'WCAG 2.1 Contrast & Clear Alt-Text',
-    description: 'All promotional banners and marketing creatives must maintain at least 4.5:1 text-to-background contrast ratio (WCAG AA) and include descriptive alt-text.',
+    ruleName: 'WCAG 2.1 Contrast & Clear Disclosures',
+    description: 'All promotional assets must maintain at least 4.5:1 text-to-background contrast ratio and clearly disclose the use of AI assistance and data usage terms.',
     overrideCount: 2
   }
 ];

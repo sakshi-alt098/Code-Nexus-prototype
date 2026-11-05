@@ -1,19 +1,18 @@
-// Inkloom AI Brand Color Palette Definition
-// Derived from Official Brand Palette Tokens
+// Inkloom AI Brand Color Palette Definition — Lavender Black Theme
 
 export const BRAND_COLORS = {
-  midnightBase: '#0B1B3D',      // Base Canvas Dark
-  slateSurface: '#26425A',      // Container Cards & Panels
-  cornflowerAccent: '#86A8CF',  // Interactive Buttons & CTAs
-  dustyOrchid: '#C38EB4',       // Critical Alerts & Violations
-  blushForeground: '#E1CBD7',   // Primary High-Contrast Typography
-  deepWell: '#07111C',          // Input Fields & Diff Wells
+  obsidianBlack: '#0A0912',     // Deep obsidian canvas base
+  lavenderSurface: '#151324',   // Dark lavender slate card container
+  lavenderAccent: '#B69DF8',    // Luminous soft lavender primary
+  roseViolet: '#E879F9',        // High-severity & accent alert
+  paleMist: '#EDE9FE',          // Ultra-readable primary typography
+  velvetWell: '#090810',        // Deep black textarea and diff well
 } as const;
 
 export const CHART_PALETTE = [
-  '#86A8CF', // Cornflower Blue
-  '#C38EB4', // Dusty Orchid
-  '#E1CBD7', // Pale Blush
-  '#26425A', // Slate Navy
-  '#0B1B3D', // Midnight Base
+  '#B69DF8', // Soft Lavender
+  '#E879F9', // Rose Violet
+  '#EDE9FE', // Pale Mist
+  '#3B3463', // Muted Plum
+  '#151324', // Deep Surface
 ];

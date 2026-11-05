@@ -29,3 +29,6 @@ lerna-debug.log*
 # OS metadata
 .DS_Store
 Thumbs.db
+
+Code-Nexus-prototype/
+frontend/Code-Nexus-prototype/

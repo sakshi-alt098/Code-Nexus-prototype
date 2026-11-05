@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrandGuidelineRule } from '../../types';
 import { MOCK_GUIDELINE_RULES } from '../../data/mockGuidelines';
-import { Sparkles, Plus, Download, AlertCircle } from 'lucide-react';
+import { Sparkles, Plus, Download, AlertCircle, BookOpen } from 'lucide-react';
 
 export const KnowledgeBaseManager: React.FC = () => {
   const [rules, setRules] = useState<BrandGuidelineRule[]>(MOCK_GUIDELINE_RULES);
@@ -46,7 +46,7 @@ export const KnowledgeBaseManager: React.FC = () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(rules, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", "inkloom-brand-rules-v2.4.json");
+    downloadAnchor.setAttribute("download", "inkloom-brand-rules.json");
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -56,32 +56,32 @@ export const KnowledgeBaseManager: React.FC = () => {
     <div className="space-y-6">
       
       {/* Header */}
-      <div className="bg-[#0B1B3D] p-4 rounded-xl border border-[#26425A] flex flex-wrap items-center justify-between gap-4 shadow-md">
+      <div className="bg-[#151324] p-4 rounded-2xl border border-[#2E2A4A] flex flex-wrap items-center justify-between gap-4 shadow-xl">
         <div>
           <h2 className="text-base font-bold text-white flex items-center space-x-2">
-            <Sparkles className="w-4 h-4 text-[#86A8CF]" />
+            <Sparkles className="w-4 h-4 text-[#B69DF8]" />
             <span>Brand Knowledge Base & Governance Rules Vault</span>
           </h2>
-          <p className="text-xs text-[#E1CBD7]/70 mt-0.5">
-            Single source of truth. The deterministic engine and model pipeline are grounded against these rules.
+          <p className="text-xs text-[#EDE9FE]/70 mt-0.5">
+            Single source of truth. The audit pipeline evaluates drafts against these configured guidelines.
           </p>
         </div>
 
         <div className="flex items-center space-x-3">
           <button
             onClick={handleExportJSON}
-            className="px-3.5 py-2 rounded-xl bg-[#26425A] hover:bg-[#32526e] text-xs font-semibold text-[#E1CBD7] border border-[#86A8CF]/30 transition flex items-center space-x-1.5 shadow-sm cursor-pointer"
+            className="px-3.5 py-2 rounded-xl bg-[#0A0912] hover:bg-[#151324] text-xs font-semibold text-[#EDE9FE] border border-[#2E2A4A] transition flex items-center space-x-1.5 shadow-sm cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-[#86A8CF]" />
-            <span>Export Brand Book (JSON)</span>
+            <Download className="w-3.5 h-3.5 text-[#B69DF8]" />
+            <span>Export Brand Book</span>
           </button>
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="px-4 py-2 rounded-xl bg-[#86A8CF] hover:bg-[#7297c0] text-[#0B1B3D] text-xs font-bold transition flex items-center space-x-1.5 shadow-[0_0_15px_rgba(134,168,207,0.3)] cursor-pointer"
+            className="px-3.5 py-2 rounded-xl bg-[#B69DF8] hover:bg-[#a688f7] text-xs font-bold text-[#0A0912] transition flex items-center space-x-1.5 shadow-[0_0_15px_rgba(182,157,248,0.4)] cursor-pointer"
           >
-            <Plus className="w-4 h-4 text-[#0B1B3D]" />
-            <span>Add Brand Rule</span>
+            <Plus className="w-3.5 h-3.5 text-[#0A0912]" />
+            <span>Add Guideline</span>
           </button>
         </div>
       </div>
@@ -91,137 +91,136 @@ export const KnowledgeBaseManager: React.FC = () => {
         {rules.map(rule => (
           <div
             key={rule.id}
-            className="p-5 rounded-2xl bg-[#26425A]/60 border border-[#86A8CF]/25 hover:border-[#86A8CF]/50 transition shadow-lg space-y-3"
+            className="p-5 rounded-2xl bg-[#151324] border border-[#2E2A4A] hover:border-[#B69DF8]/50 transition shadow-xl space-y-3"
           >
-            <div className="flex items-start justify-between gap-2">
-              <div className="flex items-center space-x-2">
-                <span className="px-2 py-0.5 rounded bg-[#86A8CF]/20 text-[#86A8CF] font-mono font-bold text-xs">
-                  {rule.sectionCode}
+            <div className="flex items-start justify-between">
+              <div>
+                <span className="text-[10px] font-mono text-[#B69DF8] uppercase tracking-wider block mb-1">
+                  {rule.sectionCode} • {rule.category}
                 </span>
-                <span className="text-[11px] font-mono text-[#E1CBD7]/60 uppercase">{rule.category}</span>
+                <h3 className="text-sm font-bold text-white">{rule.ruleName}</h3>
               </div>
 
               {rule.isAmbiguousWarning && (
-                <span className="px-2 py-0.5 rounded-full bg-[#C38EB4]/30 text-[#E1CBD7] border border-[#C38EB4]/60 text-[10px] font-semibold flex items-center space-x-1">
-                  <AlertCircle className="w-3.5 h-3.5 text-[#C38EB4]" />
-                  <span>Ambiguity Flag ({rule.overrideCount} overrides)</span>
+                <span className="px-2 py-0.5 rounded-full bg-[#E879F9]/20 text-[#E879F9] text-[10px] font-mono flex items-center space-x-1 border border-[#E879F9]/40">
+                  <AlertCircle className="w-3 h-3" />
+                  <span>Ambiguity Warning</span>
                 </span>
               )}
             </div>
 
-            <div>
-              <h3 className="text-sm font-bold text-white">{rule.ruleName}</h3>
-              <p className="text-xs text-[#E1CBD7]/80 mt-1 leading-relaxed">{rule.description}</p>
-            </div>
+            <p className="text-xs text-[#EDE9FE]/80 leading-relaxed font-sans">
+              {rule.description}
+            </p>
 
-            {(rule.bannedExample || rule.approvedAlternative) && (
-              <div className="pt-2 border-t border-[#26425A] space-y-1.5 font-mono text-[11px]">
-                {rule.bannedExample && (
-                  <div className="text-[#C38EB4] flex items-start space-x-1.5 bg-[#07111C] p-2 rounded">
-                    <span className="font-bold">✗ Banned:</span>
-                    <span>"{rule.bannedExample}"</span>
-                  </div>
-                )}
-                {rule.approvedAlternative && (
-                  <div className="text-[#86A8CF] flex items-start space-x-1.5 bg-[#07111C] p-2 rounded">
-                    <span className="font-bold">✓ Approved:</span>
-                    <span>"{rule.approvedAlternative}"</span>
-                  </div>
-                )}
+            <div className="space-y-1.5 pt-2 border-t border-[#2E2A4A] text-xs font-mono">
+              <div className="p-2 rounded-lg bg-[#0A0912] border border-[#E879F9]/30 text-[#E879F9]">
+                <strong className="text-[10px] uppercase text-[#E879F9]/70 block font-sans">Flagged Pattern:</strong>
+                "{rule.bannedExample}"
               </div>
-            )}
+              <div className="p-2 rounded-lg bg-[#0A0912] border border-[#B69DF8]/30 text-[#B69DF8]">
+                <strong className="text-[10px] uppercase text-[#B69DF8]/70 block font-sans">Approved Alternative:</strong>
+                "{rule.approvedAlternative}"
+              </div>
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Add Rule Modal */}
+      {/* Add Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-2xl bg-[#0B1B3D] border border-[#86A8CF]/40 p-6 shadow-2xl space-y-4">
-            <h3 className="text-base font-bold text-white">Add New Brand Guideline Rule</h3>
+        <div className="fixed inset-0 z-50 bg-[#0A0912]/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="max-w-lg w-full bg-[#151324] border border-[#2E2A4A] rounded-2xl p-6 shadow-2xl space-y-4">
+            <h3 className="text-base font-bold text-white">Add New Brand Guideline</h3>
+            
             <form onSubmit={handleAddRule} className="space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Section Code</label>
-                  <input
-                    type="text"
-                    required
-                    value={newRule.sectionCode}
-                    onChange={(e) => setNewRule({ ...newRule, sectionCode: e.target.value })}
-                    className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Category</label>
-                  <input
-                    type="text"
-                    required
-                    value={newRule.category}
-                    onChange={(e) => setNewRule({ ...newRule, category: e.target.value })}
-                    className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
-                  />
-                </div>
-              </div>
-
               <div>
-                <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Rule Name</label>
+                <label className="text-xs font-mono text-[#EDE9FE]/70 block mb-1 uppercase">Rule Name</label>
                 <input
                   type="text"
-                  required
-                  placeholder="e.g. Unverified SLA Metrics"
                   value={newRule.ruleName}
                   onChange={(e) => setNewRule({ ...newRule, ruleName: e.target.value })}
-                  className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
+                  placeholder="e.g., Substantiation of ESG Claims"
+                  required
+                  className="w-full text-xs bg-[#0A0912] border border-[#2E2A4A] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#B69DF8]"
                 />
               </div>
 
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-mono text-[#EDE9FE]/70 block mb-1 uppercase">Category</label>
+                  <select
+                    value={newRule.category}
+                    onChange={(e) => setNewRule({ ...newRule, category: e.target.value })}
+                    className="w-full text-xs bg-[#0A0912] border border-[#2E2A4A] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#B69DF8]"
+                  >
+                    <option value="Commercial Claims">Commercial Claims</option>
+                    <option value="Brand Tone & Positioning">Brand Tone & Positioning</option>
+                    <option value="Legal & Privacy Safeguards">Legal & Privacy Safeguards</option>
+                    <option value="Editorial Tone">Editorial Tone</option>
+                    <option value="Visual & Accessibility">Visual & Accessibility</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-mono text-[#EDE9FE]/70 block mb-1 uppercase">Section Code</label>
+                  <input
+                    type="text"
+                    value={newRule.sectionCode}
+                    onChange={(e) => setNewRule({ ...newRule, sectionCode: e.target.value })}
+                    className="w-full text-xs font-mono bg-[#0A0912] border border-[#2E2A4A] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#B69DF8]"
+                  />
+                </div>
+              </div>
+
               <div>
-                <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Guideline Description</label>
+                <label className="text-xs font-mono text-[#EDE9FE]/70 block mb-1 uppercase">Rule Description</label>
                 <textarea
-                  rows={2}
-                  required
-                  placeholder="Explain why this rule exists and how to comply..."
                   value={newRule.description}
                   onChange={(e) => setNewRule({ ...newRule, description: e.target.value })}
-                  className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
+                  rows={2}
+                  placeholder="Detailed criteria when this rule triggers..."
+                  required
+                  className="w-full text-xs bg-[#0A0912] border border-[#2E2A4A] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#B69DF8]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Banned Phrasing Example</label>
+                <label className="text-xs font-mono text-[#EDE9FE]/70 block mb-1 uppercase">Banned Example</label>
                 <input
                   type="text"
-                  placeholder="e.g. 100% uptime guaranteed"
                   value={newRule.bannedExample}
                   onChange={(e) => setNewRule({ ...newRule, bannedExample: e.target.value })}
-                  className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
+                  placeholder="Example phrase that violates this rule..."
+                  required
+                  className="w-full text-xs bg-[#0A0912] border border-[#2E2A4A] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#B69DF8]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-mono text-[#E1CBD7]/70 block mb-1">Approved Alternative Example</label>
+                <label className="text-xs font-mono text-[#EDE9FE]/70 block mb-1 uppercase">Approved Alternative</label>
                 <input
                   type="text"
-                  placeholder="e.g. 99.9% target SLA availability"
                   value={newRule.approvedAlternative}
                   onChange={(e) => setNewRule({ ...newRule, approvedAlternative: e.target.value })}
-                  className="w-full text-xs bg-[#07111C] border border-[#86A8CF]/30 rounded-lg p-2 text-white"
+                  placeholder="Recommended compliant alternative..."
+                  required
+                  className="w-full text-xs bg-[#0A0912] border border-[#2E2A4A] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#B69DF8]"
                 />
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-[#26425A]">
+              <div className="flex items-center justify-end space-x-2 pt-3">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 rounded-lg bg-[#26425A] text-xs text-[#E1CBD7] cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-[#0A0912] hover:bg-[#2E2A4A]/50 text-xs text-[#EDE9FE] border border-[#2E2A4A] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-[#86A8CF] text-[#0B1B3D] font-bold text-xs cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-[#B69DF8] hover:bg-[#a688f7] text-xs font-bold text-[#0A0912] cursor-pointer shadow-sm"
                 >
-                  Save Rule
+                  Save Guideline
                 </button>
               </div>
             </form>

@@ -9,39 +9,40 @@ export default {
     extend: {
       colors: {
         ink: {
-          midnight: '#0B1B3D',   // Base dark canvas / navigation
-          slate: '#26425A',      // Card & panel surface
-          cornflower: '#86A8CF', // Interactive primary, active tabs, buttons
-          orchid: '#C38EB4',     // Critical alerts & unsupported claims
-          blush: '#E1CBD7',      // Headings, icons, text tint
-          well: '#07111C',       // Code wells, textareas
+          obsidian: '#0A0912',   // Deep obsidian canvas base
+          surface: '#151324',    // Dark lavender slate card surface
+          lavender: '#B69DF8',   // Luminous soft lavender primary
+          rose: '#E879F9',       // High-severity & accent alert
+          mist: '#EDE9FE',       // Ultra-readable primary typography
+          well: '#090810',       // Deep black textarea and diff well
+          border: '#2E2A4A',     // Subtle lavender border
         },
         brand: {
           petrol: {
-            deep: '#0B1B3D',   // Base dark canvas
-            surface: '#26425A',// Card & panel surface
-            border: '#355370', // Subtle borders
+            deep: '#0A0912',
+            surface: '#151324',
+            border: '#2E2A4A',
           },
           terracotta: {
-            DEFAULT: '#C38EB4',// Critical alerts & unsupported claims (Dusty Orchid)
-            hover: '#AB729C',
-            light: 'rgba(195, 142, 180, 0.15)'
+            DEFAULT: '#E879F9',
+            hover: '#D946EF',
+            light: 'rgba(232, 121, 249, 0.15)'
           },
           cyan: {
-            DEFAULT: '#86A8CF',// Interactive primary (Cornflower Blue)
-            hover: '#7297C0',
-            glow: 'rgba(134, 168, 207, 0.3)'
+            DEFAULT: '#B69DF8',
+            hover: '#A78BFA',
+            glow: 'rgba(182, 157, 248, 0.35)'
           },
           ice: {
-            DEFAULT: '#E1CBD7',// Headings, icons, text tint (Pale Blush)
-            muted: 'rgba(225, 203, 215, 0.75)',
-            subtle: 'rgba(225, 203, 215, 0.10)'
+            DEFAULT: '#EDE9FE',
+            muted: 'rgba(237, 233, 254, 0.75)',
+            subtle: 'rgba(237, 233, 254, 0.10)'
           }
         }
       },
       boxShadow: {
-        'brand-glow': '0 0 20px rgba(134, 168, 207, 0.35)',
-        'alert-glow': '0 0 20px rgba(195, 142, 180, 0.35)',
+        'brand-glow': '0 0 25px rgba(182, 157, 248, 0.35)',
+        'alert-glow': '0 0 25px rgba(232, 121, 249, 0.35)',
       }
     },
   },
