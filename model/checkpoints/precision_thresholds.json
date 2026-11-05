@@ -1,0 +1,77 @@
+{
+  "per_class": {
+    "SUPPORTS": {
+      "threshold": 0.84,
+      "precision_pct": 90.24,
+      "recall_pct": 7.4,
+      "coverage_pct": 2.73,
+      "target_met": true
+    },
+    "REFUTES": {
+      "threshold": 0.88,
+      "precision_pct": 90.51,
+      "recall_pct": 28.6,
+      "coverage_pct": 10.53,
+      "target_met": true
+    },
+    "NOT ENOUGH INFO": {
+      "threshold": 0.78,
+      "precision_pct": 90.0,
+      "recall_pct": 1.8,
+      "coverage_pct": 0.67,
+      "target_met": true
+    }
+  },
+  "global_thresholds": [
+    {
+      "threshold": 0.5,
+      "precision_pct": 61.53,
+      "accuracy_pct": 61.95,
+      "coverage_pct": 69.73,
+      "samples_decided": 1046
+    },
+    {
+      "threshold": 0.6,
+      "precision_pct": 66.62,
+      "accuracy_pct": 68.48,
+      "coverage_pct": 45.47,
+      "samples_decided": 682
+    },
+    {
+      "threshold": 0.7,
+      "precision_pct": 72.08,
+      "accuracy_pct": 74.83,
+      "coverage_pct": 28.6,
+      "samples_decided": 429
+    },
+    {
+      "threshold": 0.75,
+      "precision_pct": 80.42,
+      "accuracy_pct": 80.36,
+      "coverage_pct": 22.07,
+      "samples_decided": 331
+    },
+    {
+      "threshold": 0.8,
+      "precision_pct": 88.48,
+      "accuracy_pct": 84.64,
+      "coverage_pct": 17.8,
+      "samples_decided": 267
+    },
+    {
+      "threshold": 0.85,
+      "precision_pct": 59.61,
+      "accuracy_pct": 88.89,
+      "coverage_pct": 14.4,
+      "samples_decided": 216
+    },
+    {
+      "threshold": 0.9,
+      "precision_pct": 57.82,
+      "accuracy_pct": 90.18,
+      "coverage_pct": 10.87,
+      "samples_decided": 163
+    }
+  ],
+  "recommended_high_precision_threshold": 0.75
+}
