@@ -1,15 +1,67 @@
-# Inkloom AI — Frontend Architecture & Workflow Specification
+# Inkloom AI — Intelligent Brand Governance Platform
 **Team:** Ek Kachori Do Samosa  
-**Module C:** Frontend, Visual and Accessibility (Purva)
+- **Sakshi Dharpure** (Team Lead & AI Engine)  
+- **Purva Deshmukh** (Frontend, Visual & Accessibility)  
+- **Khushi Rathi** (Backend, Database & Security)  
 
-This directory contains the frontend plan and implementation for the **Brand Governance Platform**.
-For the comprehensive architecture, data contracts, and roadmap, refer to the full specification in the project brain artifact:
-`frontend-architecture-and-workflow.md`.
+---
 
-## Key Workflow Pillars:
-1. **Admin / Knowledge Base**: Define brand rules, tone attributes, banned terms, allowed claims, and visual palette.
-2. **Creator Studio**: Draft content (Social, Press Release, Blog, Banner), run simulated multi-step scan.
-3. **Diagnostic Engine (Mock)**: Deterministic evaluation of claims, terminology, tone, and WCAG contrast without live LLMs.
-4. **Remediation & Explainability**: Show issues with severity, reason, brand book citation, and 1-click "Accept Fix".
-5. **Multi-Stage Review**: Manager and Authorised Reviewer dashboards with diff comparison, comments, and sign-off.
-6. **Analytics & Insights**: Recharts dashboard tracking repeated errors and ambiguous guidelines.
+## Overview
+
+Inkloom AI is an intelligent brand-governance platform that reviews content before publication against approved guidelines, facts, and assets. Instead of simply rejecting content, it explains each issue, cites the exact guideline violated, and suggests intent-preserving corrections.
+
+---
+
+## 🎨 Official Brand Color Scheme
+
+| Color Name | Hex Code | Role |
+| :--- | :--- | :--- |
+| **Deep Petrol** | `#003135` | Dark Canvas Background & Main Frame |
+| **Ocean Teal** | `#024950` | Card & Panel Surfaces |
+| **Terracotta Rust** | `#964734` | Critical Violations & High-Risk Alerts |
+| **Vibrant Turquoise** | `#0FA4AF` | Interactive CTA & Progress Accents |
+| **Ice Blue** | `#AFDDE5` | Primary Headings & Muted Badges |
+
+---
+
+## 👥 Role-Based Dashboards (Strict RBAC)
+
+1. **Content Creator (`Alex Croft`)**:
+   - Multi-format authoring studio (Social Post, Press Release, Blog, Banner).
+   - Automated 4-stage diagnostic scanner (tone, claims, buzzwords, WCAG).
+   - Explainable findings with 1-click **Accept Suggestion** or **Custom Edit**.
+   - Track personal drafts (`Needs Revision`, `Pending Manager`, `Approved`).
+
+2. **Reviewing Manager (`Purva Deshmukh`)**:
+   - Department review queue.
+   - Side-by-side visual diff comparison (Original vs Remediated).
+   - Threaded collaboration comments.
+   - Actions: **Endorse & Send to Legal** or **Request Changes**.
+
+3. **Authorised Reviewer (`Sakshi Dharpure`)**:
+   - Legal & compliance sign-off console.
+   - High-risk claim and statutory liability verification.
+   - Actions: **Grant Final Approval** (Digital Sign-Off) or **Reject**.
+   - Compliance & risk analytics.
+
+4. **Administrator (`Khushi Rathi`)**:
+   - Brand Knowledge Base vault (add/edit rules, section codes, banned terms).
+   - Export Brand Book as JSON.
+   - Organization-wide governance insights and ambiguity discovery.
+
+---
+
+## 🚀 Quick Start Instructions
+
+```bash
+# 1. Navigate to frontend folder
+cd frontend
+
+# 2. Install dependencies
+npm install
+
+# 3. Start development server
+npm run dev
+```
+
+Visit: **`http://localhost:5173`**
